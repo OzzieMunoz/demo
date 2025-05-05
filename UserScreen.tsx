@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    ActivityIndicator,
-    Alert,
-    Platform,
-    Image,
-    TouchableOpacity,
-    StyleSheet
-} from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Alert, Platform, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAuth } from '../context/AuthContext';
 import { useClassroom } from '../context/ClassroomContext';
@@ -22,6 +12,7 @@ import { layout } from '../styles/layout';
 import { API_BASE_URL, API_ROUTES, getAuthHeaders } from '../../client/config';
 
 const UserScreen = ({ navigation }) => {
+    // Hide native header on web, show on mobile
     useLayoutEffect(() => {
         navigation.setOptions({ headerShown: Platform.OS !== 'web' });
     }, [navigation]);
