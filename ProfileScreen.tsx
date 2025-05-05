@@ -6,27 +6,17 @@ import { RootStackParamList } from '../navigation';
 import { useAuth } from '../context/AuthContext';
 import { layout } from '../styles/layout';
 
-// Mock user for preview without database
-const mockUser = {
-    image_url: 'https://i.pravatar.cc/150?img=3',
-    first_name: 'Alex',
-    last_name: 'Johnson',
-    email: 'alex.johnson@example.com',
-    user_id: 'USER12345',
-    role: 1, // 1 = admin, 0 = regular user
-};
-
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
+    // Hide native header on web, show on mobile
     useLayoutEffect(() => {
         navigation.setOptions({ headerShown: Platform.OS !== 'web' });
     }, [navigation]);
 
     const { currentUser, logout } = useAuth();
-    const user = currentUser ?? mockUser;
 
-    if (!user) {
+    if (!currentUser) {
         return (
             <View style={[layout.centered, styles.unauthContainer]}>
                 <Text style={styles.unauthText}>You need to be logged in to view this page</Text>
@@ -43,6 +33,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         );
     }
 
+    const user = currentUser;
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <View style={styles.header}>
@@ -55,7 +47,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate('Leaderboard')}>
                     <Text style={styles.navLink}>Leaderboard</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                <TouchableOpacity onPress={() => navigation.replace('Profile')}>
                     <Text style={[styles.navLink, styles.activeNavLink]}>Profile</Text>
                 </TouchableOpacity>
                 {user.role === 1 && (
