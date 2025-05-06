@@ -29,7 +29,9 @@ const UserScreen = ({ navigation }) => {
         setIsLoading(true);
         try {
             const headers = await getAuthHeaders();
-            const response = await fetch(`${API_BASE_URL}/submissions/user/${currentUser.user_id}/assignment/${selectedAssignment.assignment_id}`, { headers });
+            const response = await fetch(`${API_BASE_URL}/submissions/user/${currentUser.user_id}/assignment/${selectedAssignment.assignment_id}`, {
+                headers
+            });
 
             if (!response.ok) {
                 throw new Error(`Failed to fetch submissions: ${response.status}`);
@@ -40,7 +42,7 @@ const UserScreen = ({ navigation }) => {
 
             setSubmissionInfo(submissions);
 
-            if (submissions.length > 0) {
+            if (submissions && submissions.length > 0) {
                 setSubmitted(true);
 
                 try {
@@ -67,9 +69,30 @@ const UserScreen = ({ navigation }) => {
         }
     }, [currentUser, selectedAssignment]);
 
+    const deleteSubmission = async (submissionId: number) => {
+        try {
+            const headers = await getAuthHeaders();
+            const response = await fetch(API_ROUTES.submissions.delete(submissionId), {
+                method: 'DELETE',
+                headers
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to delete submission: ${response.status}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error('Error deleting submission:', error);
+            throw error;
+        }
+    };
+
     const handleDeleteSubmission = async (submissionId: number) => {
         if (Platform.OS === 'web') {
-            if (!confirm('Are you sure you want to delete this submission?')) return;
+            if (!confirm('Are you sure you want to delete this submission?')) {
+                return;
+            }
         } else {
             // For mobile, use Alert
             Alert.alert(
@@ -80,8 +103,8 @@ const UserScreen = ({ navigation }) => {
                     {
                         text: 'Delete',
                         style: 'destructive',
-                        onPress: () => performDelete(submissionId),
-                    },
+                        onPress: () => performDelete(submissionId)
+                    }
                 ]
             );
             return;
@@ -93,20 +116,18 @@ const UserScreen = ({ navigation }) => {
     const performDelete = async (submissionId: number) => {
         setIsDeleting(true);
         try {
-            const headers = await getAuthHeaders();
-            const response = await fetch(API_ROUTES.submissions.delete(submissionId), {
-                method: 'DELETE',
-                headers,
-            });
+            await deleteSubmission(submissionId);
 
-            if (!response.ok) {
-                throw new Error(`Failed to delete submission: ${response.status}`);
-            }
-
+            // Refresh the submissions list
             await fetchSubmissions();
         } catch (error) {
             console.error("Error deleting submission:", error);
-            Alert.alert('Error', 'Failed to delete submission. Please try again.');
+
+            if (Platform.OS === 'web') {
+                alert('Failed to delete submission. Please try again.');
+            } else {
+                Alert.alert('Error', 'Failed to delete submission. Please try again.');
+            }
         } finally {
             setIsDeleting(false);
         }
