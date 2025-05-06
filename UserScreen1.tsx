@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import {
-    ScrollView,
-    View,
-    Text,
-    ActivityIndicator,
-    Alert,
-    Platform,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-} from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, Alert, Platform, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAuth } from '../context/AuthContext';
 import { useClassroom } from '../context/ClassroomContext';
@@ -47,10 +37,12 @@ const UserScreen = ({ navigation }) => {
 
             const data = await response.json();
             const submissions = data.data || [];
+
             setSubmissionInfo(submissions);
 
             if (submissions.length > 0) {
                 setSubmitted(true);
+
                 try {
                     const parsedResults = JSON.parse(submissions[0].results) as CodeRunInfo;
                     setResults(parsedResults);
@@ -79,6 +71,7 @@ const UserScreen = ({ navigation }) => {
         if (Platform.OS === 'web') {
             if (!confirm('Are you sure you want to delete this submission?')) return;
         } else {
+            // For mobile, use Alert
             Alert.alert(
                 'Confirm Deletion',
                 'Are you sure you want to delete this submission?',
@@ -209,22 +202,111 @@ const UserScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#061811' },
-    contentContainer: { padding: 30 },
-    header: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-    logo: { width: 40, height: 40, resizeMode: 'contain', marginRight: 12 },
-    navLink: { fontSize: 40, lineHeight: 40, fontFamily: 'YoungFrankExpand', color: '#88AB57', marginHorizontal: 12 },
-    activeNavLink: { textDecorationLine: 'underline' },
-    signOutBtn: { marginLeft: 'auto', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 32, backgroundColor: '#88AB57' },
-    signOutText: { color: '#FFFFFF', fontFamily: 'YoungFrankExpand', fontSize: 18 },
-    pageTitle: { fontSize: 40, fontFamily: 'YoungFrankExpand', color: '#88AB57', textAlign: 'center', marginBottom: 20 },
-    contentWrapper: { backgroundColor: '#061811', alignItems: 'center' },
-    assignmentTitle: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, color: '#EAEAEA', textAlign: 'center' },
-    description: { fontSize: 16, marginBottom: 16, color: '#EAEAEA', textAlign: 'center' },
-    dueDate: { fontStyle: 'italic', marginBottom: 24, color: '#EAEAEA', textAlign: 'center' },
-    uploadTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 16, color: '#EAEAEA', textAlign: 'center' },
-    deleteButton: { marginTop: 20, alignSelf: 'center', paddingVertical: 12, paddingHorizontal: 24, borderRadius: 32, backgroundColor: '#E53935' },
-    deleteButtonLabel: { color: '#FFFFFF', fontFamily: 'YoungFrankExpand', fontSize: 20 },
+    container: {
+        flex: 1,
+        backgroundColor: '#061811',
+    },
+
+    contentContainer: {
+        padding: 30,
+    },
+
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+
+    logo: {
+        width: 40,
+        height: 40,
+        resizeMode: 'contain',
+        marginRight: 12,
+    },
+
+    navLink: {
+        fontSize: 40,
+        lineHeight: 40,
+        fontFamily: 'YoungFrankExpand',
+        color: '#88AB57',
+        marginHorizontal: 12,
+    },
+
+    activeNavLink: {
+        textDecorationLine: 'underline',
+    },
+
+    signOutBtn: {
+        marginLeft: 'auto',
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        borderRadius: 32,
+        backgroundColor: '#88AB57',
+    },
+
+    signOutText: {
+        color: '#FFFFFF',
+        fontFamily: 'YoungFrankExpand',
+        fontSize: 18,
+    },
+
+    pageTitle: {
+        fontSize: 40,
+        fontFamily: 'YoungFrankExpand',
+        color: '#88AB57',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+
+    contentWrapper: {
+        backgroundColor: '#061811',
+        alignItems: 'center',
+    },
+
+    assignmentTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 16,
+        color: '#EAEAEA',
+        textAlign: 'center',
+    },
+
+    description: {
+        fontSize: 16,
+        marginBottom: 16,
+        color: '#EAEAEA',
+        textAlign: 'center',
+    },
+
+    dueDate: {
+        fontStyle: 'italic',
+        marginBottom: 24,
+        color: '#EAEAEA',
+        textAlign: 'center',
+    },
+
+    uploadTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 16,
+        color: '#EAEAEA',
+        textAlign: 'center',
+    },
+
+    deleteButton: {
+        marginTop: 20,
+        alignSelf: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 32,
+        backgroundColor: '#E53935',
+    },
+
+    deleteButtonLabel: {
+        color: '#FFFFFF',
+        fontFamily: 'YoungFrankExpand',
+        fontSize: 20,
+    },
 });
 
 export default UserScreen;
