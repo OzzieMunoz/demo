@@ -147,7 +147,6 @@ const UserScreen = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            {/* Custom Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                     <Image source={require('../../assets/frankenweb-logo-v1.png')} style={styles.logo} />
@@ -206,24 +205,20 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#061811',
     },
-
     contentContainer: {
         padding: 30,
     },
-
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
     },
-
     logo: {
         width: 40,
         height: 40,
         resizeMode: 'contain',
         marginRight: 12,
     },
-
     navLink: {
         fontSize: 40,
         lineHeight: 40,
@@ -231,11 +226,9 @@ const styles = StyleSheet.create({
         color: '#88AB57',
         marginHorizontal: 12,
     },
-
     activeNavLink: {
         textDecorationLine: 'underline',
     },
-
     signOutBtn: {
         marginLeft: 'auto',
         paddingHorizontal: 24,
@@ -243,13 +236,11 @@ const styles = StyleSheet.create({
         borderRadius: 32,
         backgroundColor: '#88AB57',
     },
-
     signOutText: {
         color: '#FFFFFF',
         fontFamily: 'YoungFrankExpand',
         fontSize: 18,
     },
-
     pageTitle: {
         fontSize: 40,
         fontFamily: 'YoungFrankExpand',
@@ -257,12 +248,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
     },
-
     contentWrapper: {
         backgroundColor: '#061811',
         alignItems: 'center',
     },
-
     assignmentTitle: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -270,21 +259,18 @@ const styles = StyleSheet.create({
         color: '#EAEAEA',
         textAlign: 'center',
     },
-
     description: {
         fontSize: 16,
         marginBottom: 16,
         color: '#EAEAEA',
         textAlign: 'center',
     },
-
     dueDate: {
         fontStyle: 'italic',
         marginBottom: 24,
         color: '#EAEAEA',
         textAlign: 'center',
     },
-
     uploadTitle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -292,7 +278,6 @@ const styles = StyleSheet.create({
         color: '#EAEAEA',
         textAlign: 'center',
     },
-
     deleteButton: {
         marginTop: 20,
         alignSelf: 'center',
@@ -301,7 +286,6 @@ const styles = StyleSheet.create({
         borderRadius: 32,
         backgroundColor: '#E53935',
     },
-
     deleteButtonLabel: {
         color: '#FFFFFF',
         fontFamily: 'YoungFrankExpand',
